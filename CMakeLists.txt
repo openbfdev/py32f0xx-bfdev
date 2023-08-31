@@ -31,8 +31,9 @@ set(CMAKE_STRIP "${TOOLCHAIN_PREFIX}ld")
 add_definitions(
     "-fno-builtin"
     "-ffreestanding"
+    "-ffunction-sections"
+    "-fdata-sections"
     "--specs=nosys.specs"
-    "-D ARM_MATH_CM0PLUS"
     "-D PY32F030x6"
 )
 
@@ -74,5 +75,5 @@ set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
 set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} -mthumb")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
-set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} -Wl,-Map=test.map --specs=nosys.specs")
+set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} --specs=nosys.specs -Wl,-Map=test.map -Wl,--gc-sections")
 add_executable(${PROJECT_NAME} ${PROJECT_FILES})
