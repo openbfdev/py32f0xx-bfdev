@@ -4,7 +4,7 @@
 #
 
 cmake_minimum_required(VERSION 3.9)
-project(py32f0 VERSION "1.0" LANGUAGES ASM C)
+project(py32f0xx VERSION "1.0" LANGUAGES ASM C)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(PY32_HEADER_PATH ${PROJECT_SOURCE_DIR}/include)
@@ -71,9 +71,20 @@ set(MFPU "")
 set(MFLOAT_ABI "-mfloat-abi=soft")
 set(LINKER_SCRIPT ${PY32_LDS_PATH}/py32f030x6.ld)
 
-set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
 set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} -mthumb")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} --specs=nosys.specs -Wl,-Map=test.map -Wl,--gc-sections")
 add_executable(${PROJECT_NAME} ${PROJECT_FILES})
+
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD COMMAND
+    ${CMAKE_OBJCOPY} -O binary
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin
+    POST_BUILD COMMAND
+    ${CMAKE_OBJCOPY} -O ihex
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex
+)
