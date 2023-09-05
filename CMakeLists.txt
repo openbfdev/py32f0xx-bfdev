@@ -54,16 +54,21 @@ include_directories(${PY32_HAL_PATH}/Inc)
 include_directories(${PY32_HAL_PATH}/Inc/Legacy)
 
 set(MCPU "-mcpu=cortex-m0plus")
-set(MFPU "")
 set(MFLOAT_ABI "-mfloat-abi=soft")
 set(LINKER_SCRIPT ${PY32_LDS_PATH}/py32f030x6.ld)
 
-set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
-set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} -mthumb")
+set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFLOAT_ABI} -mthumb")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
-set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} --specs=nosys.specs -Wl,-Map=test.map -Wl,--gc-sections")
-add_library(${CMAKE_PROJECT_NAME} OBJECT ${PROJECT_FILES})
 
+set(CMAKE_EXE_LINKER_FLAGS
+    "-T ${LINKER_SCRIPT} \
+     --specs=nosys.specs \
+     -Wl,--gc-sections \
+     -Wl,--print-memory-usage \
+     -Wl,-Map=${CMAKE_PROJECT_NAME}.map"
+)
+
+add_library(${CMAKE_PROJECT_NAME} OBJECT ${PROJECT_FILES})
 if(ENABLE_EXAMPLES)
     add_subdirectory(examples)
 endif()
