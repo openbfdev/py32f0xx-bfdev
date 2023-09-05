@@ -1,0 +1,30 @@
+name: build on ubuntu gcc
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: |
+          sudo apt update
+          sudo apt install \
+              cmake make gcc-arm-none-eabi
+      - name: configure cmake
+        run: |
+            cmake -B ${{github.workspace}}/build \
+                  -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+                  --toolchain ${{github.workspace}}/cmake/toolchain.cmake
+      - name: make
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
