@@ -100,7 +100,6 @@ void              HAL_FLASHEx_OBGetConfig(FLASH_OBProgramInitTypeDef *pOBInit);
   *  @{
   */
 #define IS_FLASH_EMPTY_CHECK(__VALUE__)     (((__VALUE__) == FLASH_PROG_EMPTY) || ((__VALUE__) == FLASH_PROG_NOT_EMPTY))
-void              FLASH_PageErase(uint32_t Page);
 /**
   * @}
   */
