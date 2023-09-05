@@ -25,6 +25,7 @@ jobs:
         run: |
             cmake -B ${{github.workspace}}/build \
                   -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+                  -D ENABLE_EXAMPLES=ON \
                   --toolchain ${{github.workspace}}/cmake/toolchain.cmake
       - name: make
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}

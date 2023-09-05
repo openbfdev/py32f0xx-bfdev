@@ -6,12 +6,12 @@
 cmake_minimum_required(VERSION 3.9)
 project(py32f0xx VERSION "1.0" LANGUAGES ASM C)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-set(PY32_HEADER_PATH ${PROJECT_SOURCE_DIR}/include)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(PY32_HEADER_PATH ${CMAKE_SOURCE_DIR}/include)
 
 configure_file(
     ${CMAKE_MODULE_PATH}/config.h.in
-    ${PROJECT_BINARY_DIR}/generated/config.h
+    ${CMAKE_BINARY_DIR}/generated/config.h
 )
 
 add_definitions(
@@ -23,9 +23,10 @@ add_definitions(
     "-D PY32F030x6"
 )
 
-set(PY32_CMSIS_PATH ${PROJECT_SOURCE_DIR}/drivers/CMSIS)
-set(PY32_HAL_PATH ${PROJECT_SOURCE_DIR}/drivers/PY32F0xx_HAL_Driver)
-set(PY32_LDS_PATH ${PROJECT_SOURCE_DIR}/ldscripts)
+option(ENABLE_EXAMPLES "Build examples" OFF)
+set(PY32_CMSIS_PATH ${CMAKE_SOURCE_DIR}/drivers/CMSIS)
+set(PY32_HAL_PATH ${CMAKE_SOURCE_DIR}/drivers/PY32F0xx_HAL_Driver)
+set(PY32_LDS_PATH ${CMAKE_SOURCE_DIR}/ldscripts)
 
 FILE(GLOB_RECURSE SRC_HEADER "include/*.h")
 FILE(GLOB_RECURSE SRC_SOURCE "src/*.c")
@@ -45,8 +46,8 @@ set(PROJECT_FILES
     ${DRIVERS_SOURCE}
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_BINARY_DIR}/generated)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_BINARY_DIR}/generated)
 include_directories(${PY32_CMSIS_PATH}/Include)
 include_directories(${PY32_CMSIS_PATH}/Device/PY32F0xx/Include)
 include_directories(${PY32_HAL_PATH}/Inc)
@@ -61,16 +62,8 @@ set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
 set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} -mthumb")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} --specs=nosys.specs -Wl,-Map=test.map -Wl,--gc-sections")
-add_executable(${CMAKE_PROJECT_NAME} ${PROJECT_FILES})
+add_library(${CMAKE_PROJECT_NAME} OBJECT ${PROJECT_FILES})
 
-add_custom_command(
-    TARGET ${CMAKE_PROJECT_NAME}
-    POST_BUILD COMMAND
-    ${CMAKE_OBJCOPY} -O binary
-    ${PROJECT_BINARY_DIR}/${CMAKE_PROJECT_NAME}
-    ${PROJECT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
-    POST_BUILD COMMAND
-    ${CMAKE_OBJCOPY} -O ihex
-    ${PROJECT_BINARY_DIR}/${CMAKE_PROJECT_NAME}
-    ${PROJECT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.hex
-)
+if(ENABLE_EXAMPLES)
+    add_subdirectory(examples)
+endif()

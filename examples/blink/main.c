@@ -23,12 +23,16 @@ int main(void)
     HAL_Init();
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
-    GPIOInitType.Pin = GPIO_PIN_0;
+    GPIOInitType.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_3;
     GPIOInitType.Mode = GPIO_MODE_OUTPUT_PP;
     HAL_GPIO_Init(GPIOB, &GPIOInitType);
 
     for (;;) {
+        HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+        HAL_Delay(500);
         HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+        HAL_Delay(500);
+        HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
         HAL_Delay(500);
     }
 
