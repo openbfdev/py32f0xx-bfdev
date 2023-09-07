@@ -20,12 +20,15 @@ jobs:
         run: |
           sudo apt update
           sudo apt install \
-              cmake make gcc-arm-none-eabi
+              cmake make gcc gcc-arm-none-eabi
+      - name: initialization submodule
+        run: git submodule update --init
       - name: configure cmake
         run: |
             cmake -B ${{github.workspace}}/build \
+                  --toolchain ${{github.workspace}}/cmake/toolchain.cmake \
                   -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-                  -D ENABLE_EXAMPLES=ON \
-                  --toolchain ${{github.workspace}}/cmake/toolchain.cmake
+                  -D HOST_C_COMPILER=/bin/gcc \
+                  -D ENABLE_EXAMPLES=ON
       - name: make
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
