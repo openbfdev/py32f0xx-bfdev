@@ -47,6 +47,9 @@ set(PROJECT_FILES
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_BINARY_DIR}/generated)
+include_directories(${CMAKE_SOURCE_DIR}/bfdev/include)
+include_directories(${CMAKE_BINARY_DIR}/bfdev/generated)
+
 include_directories(${PY32_CMSIS_PATH}/Include)
 include_directories(${PY32_CMSIS_PATH}/Device/PY32F0xx/Include)
 include_directories(${PY32_HAL_PATH}/Inc)
@@ -56,7 +59,7 @@ set(MCPU "-mcpu=cortex-m0plus -mthumb")
 set(MFLOAT_ABI "-mfloat-abi=soft")
 set(LINKER_SCRIPT ${PY32_LDS_PATH}/py32f030x6.ld)
 
-set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFLOAT_ABI} --specs=nano.specs")
+set(CMAKE_C_FLAGS "${MCPU} ${MFLOAT_ABI} -std=gnu11 --specs=nano.specs")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 
 set(CMAKE_EXE_LINKER_FLAGS
@@ -67,7 +70,9 @@ set(CMAKE_EXE_LINKER_FLAGS
      -Wl,-Map=${CMAKE_PROJECT_NAME}.map"
 )
 
+add_subdirectory(bfdev)
 add_library(${CMAKE_PROJECT_NAME} OBJECT ${PROJECT_FILES})
+
 if(ENABLE_EXAMPLES)
     add_subdirectory(examples)
 endif()
