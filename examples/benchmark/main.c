@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <bfdev/rbtree.h>
+#include <bfdev/config.h>
 #include "py32f0xx_hal.h"
 
 UART_HandleTypeDef huart1;
@@ -49,12 +49,10 @@ int main(void)
     __HAL_RCC_USART1_CLK_ENABLE();
     HAL_UART_Init(&huart1);
 
-    printf("RBTree benchmark for PY32F0xx.\n");
+    printf("Benchmark for PY32F0xx.\n");
     printf("Bfdev version: %s\n", __bfdev_stringify(BFDEV_VERSION));
     printf("This may take a few minutes...\n\n");
-
     benchmark();
-    for (;;);
 
     return 0;
 }

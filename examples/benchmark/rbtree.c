@@ -10,8 +10,8 @@
 #include <bfdev/rbtree.h>
 #include "py32f0xx_hal.h"
 
-#define TEST_LEN 100
-#define TEST_LOOP 5000
+#define TEST_LEN 50
+#define TEST_LOOP 10000
 static BFDEV_RB_ROOT(bench_root);
 
 struct bench_node {

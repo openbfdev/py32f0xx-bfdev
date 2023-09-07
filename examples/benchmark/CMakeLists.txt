@@ -3,7 +3,7 @@
 # Copyright(c) 2023 ffashion <helloworldffashion@gmail.com>
 #
 
-add_executable(benchmark main.c benchmark.c)
+add_executable(benchmark main.c rbtree.c)
 target_link_libraries(benchmark ${CMAKE_PROJECT_NAME})
 target_link_libraries(benchmark bfdev)
 
