@@ -19,7 +19,6 @@ add_definitions(
     "-ffreestanding"
     "-ffunction-sections"
     "-fdata-sections"
-    "--specs=nosys.specs"
     "-D PY32F030x6"
 )
 
@@ -53,11 +52,11 @@ include_directories(${PY32_CMSIS_PATH}/Device/PY32F0xx/Include)
 include_directories(${PY32_HAL_PATH}/Inc)
 include_directories(${PY32_HAL_PATH}/Inc/Legacy)
 
-set(MCPU "-mcpu=cortex-m0plus")
+set(MCPU "-mcpu=cortex-m0plus -mthumb")
 set(MFLOAT_ABI "-mfloat-abi=soft")
 set(LINKER_SCRIPT ${PY32_LDS_PATH}/py32f030x6.ld)
 
-set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFLOAT_ABI} -mthumb")
+set(CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFLOAT_ABI} --specs=nano.specs")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 
 set(CMAKE_EXE_LINKER_FLAGS
