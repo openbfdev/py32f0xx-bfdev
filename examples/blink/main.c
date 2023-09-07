@@ -2,9 +2,11 @@
 
 int main(void)
 {
-    RCC_OscInitTypeDef OscInitType;
-    RCC_ClkInitTypeDef ClkInitType;
-    GPIO_InitTypeDef GPIOInitType;
+    RCC_OscInitTypeDef OscInitType = {};
+    RCC_ClkInitTypeDef ClkInitType = {};
+    GPIO_InitTypeDef GPIOInitType = {};
+
+    HAL_Init();
 
     OscInitType.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     OscInitType.HSICalibrationValue = RCC_HSICALIBRATION_24MHz;
@@ -20,11 +22,9 @@ int main(void)
     ClkInitType.APB1CLKDivider = RCC_HCLK_DIV1;
     HAL_RCC_ClockConfig(&ClkInitType, FLASH_LATENCY_1);
 
-    HAL_Init();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-
     GPIOInitType.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_3;
     GPIOInitType.Mode = GPIO_MODE_OUTPUT_PP;
+    __HAL_RCC_GPIOB_CLK_ENABLE();
     HAL_GPIO_Init(GPIOB, &GPIOInitType);
 
     for (;;) {
