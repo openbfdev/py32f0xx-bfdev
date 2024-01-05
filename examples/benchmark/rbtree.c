@@ -22,7 +22,9 @@ struct bench_node {
 #define rb_to_bench(ptr) \
     bfdev_rb_entry_safe(ptr, struct bench_node, node)
 
-static long demo_cmp(const struct bfdev_rb_node *a, const struct bfdev_rb_node *b)
+static long
+demo_cmp(const struct bfdev_rb_node *a,
+         const struct bfdev_rb_node *b, void *pdata)
 {
     struct bench_node *demo_a = rb_to_bench(a);
     struct bench_node *demo_b = rb_to_bench(b);
@@ -51,7 +53,7 @@ int benchmark(void)
 
     for (loop = 0; loop < TEST_LOOP; ++loop) {
         for (count = 0; count < TEST_LEN; ++count)
-            bfdev_rb_insert(&bench_root, &node[count].node, demo_cmp);
+            bfdev_rb_insert(&bench_root, &node[count].node, demo_cmp, NULL);
         bench_root = BFDEV_RB_INIT;
     }
 
