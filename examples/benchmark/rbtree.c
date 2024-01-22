@@ -3,11 +3,15 @@
  * Copyright(c) 2021-2022 John Sanpe <sanpeqf@gmail.com>
  */
 
+#define MODULE_NAME "rbtree-benchmark"
+#define bfdev_log_fmt(fmt) MODULE_NAME ": " fmt
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <errno.h>
 #include <bfdev/rbtree.h>
+#include <bfdev/log.h>
 #include "py32f0xx_hal.h"
 
 #define TEST_LEN 50
@@ -31,7 +35,7 @@ demo_cmp(const struct bfdev_rb_node *a,
     return demo_a->data - demo_b->data;
 }
 
-int benchmark(void)
+int rbtree_benchmark(void)
 {
     struct bench_node *node;
     unsigned int count, loop;
@@ -40,15 +44,15 @@ int benchmark(void)
 
     node = block = malloc(sizeof(*node) * TEST_LEN);
     if (!block) {
-        printf("Insufficient Memory!\n");
+        bfdev_log_err("Insufficient Memory!\n");
         return -ENOMEM;
     }
 
-    printf("Generate Node: %u\n", TEST_LEN);
+    bfdev_log_notice("Generate Node: %u\n", TEST_LEN);
     for (count = 0; count < TEST_LEN; ++count)
         node[count].data = count;
 
-    printf("Insert Nodes: %u\n", TEST_LOOP * TEST_LEN);
+    bfdev_log_notice("Insert Nodes: %u\n", TEST_LOOP * TEST_LEN);
     start = HAL_GetTick();
 
     for (loop = 0; loop < TEST_LOOP; ++loop) {
@@ -58,7 +62,7 @@ int benchmark(void)
     }
 
     time = HAL_GetTick() - start;
-    printf("Total time: %lu.%lus\n", time / 1000, time % 1000);
+    bfdev_log_notice("Total time: %lu.%lus\n", time / 1000, time % 1000);
     free(block);
 
     return 0;

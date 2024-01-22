@@ -1,9 +1,17 @@
-#include <stdio.h>
-#include <bfdev/config.h>
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+/*
+ * Copyright(c) 2021-2022 John Sanpe <sanpeqf@gmail.com>
+ */
+
+#define MODULE_NAME "benchmark"
+#define bfdev_log_fmt(fmt) MODULE_NAME ": " fmt
+
+#include <bfdev/log.h>
 #include "py32f0xx_hal.h"
 
 UART_HandleTypeDef huart1;
-extern int benchmark(void);
+extern int crc_benchmark(void);
+extern int rbtree_benchmark(void);
 
 int __io_putchar(int ch)
 {
@@ -49,10 +57,15 @@ int main(void)
     __HAL_RCC_USART1_CLK_ENABLE();
     HAL_UART_Init(&huart1);
 
-    printf("Benchmark for PY32F0xx.\n");
-    printf("Bfdev version: %s\n", __bfdev_stringify(BFDEV_VERSION));
-    printf("This may take a few minutes...\n\n");
-    benchmark();
+    bfdev_log_info("Benchmark for PY32F0xx.\n");
+    bfdev_log_info("Bfdev version: %s\n", __bfdev_stringify(BFDEV_VERSION));
+    bfdev_log_info("This may take a few minutes...\n");
+
+    puts(""); /* '\n' */
+    crc_benchmark();
+
+    puts(""); /* '\n' */
+    rbtree_benchmark();
 
     return 0;
 }
