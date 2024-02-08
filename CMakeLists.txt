@@ -70,6 +70,8 @@ set(CMAKE_EXE_LINKER_FLAGS
      -Wl,-Map=${CMAKE_PROJECT_NAME}.map"
 )
 
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+set(BFDEV_CRC_EXTEND OFF)
 add_subdirectory(bfdev)
 add_library(${CMAKE_PROJECT_NAME} OBJECT ${PROJECT_FILES})
 

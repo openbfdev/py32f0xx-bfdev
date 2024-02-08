@@ -48,8 +48,9 @@ int crc_benchmark(int argc, char const *argv[])
     for (count = 0; count < TEST_SIZE; ++count)
         buff[count] = bfdev_prandom_value(&pstate);
 
-    GENERIC_CRC_BANDWIDTH(bfdev_crc7, "crc7", TEST_SIZE)
     GENERIC_CRC_BANDWIDTH(bfdev_crc8, "crc8", TEST_SIZE)
+    GENERIC_CRC_BANDWIDTH(bfdev_crc16, "crc16", TEST_SIZE)
+    GENERIC_CRC_BANDWIDTH(bfdev_crc32, "crc32", TEST_SIZE)
     free(buff);
 
     return 0;
