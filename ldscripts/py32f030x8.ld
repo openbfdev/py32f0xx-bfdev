@@ -23,8 +23,8 @@ _estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */
   Generate a link error if heap and stack don't fit into RAM.
   These numbers affect the USED size of RAM
 */
-_Min_Heap_Size = 0x200;   /* required amount of heap: 512 bytes */
-_Min_Stack_Size = 0x400;  /* required amount of stack: 1024 bytes */
+_Min_Heap_Size = 0x100;   /* required amount of heap: 256 bytes */
+_Min_Stack_Size = 0x200;  /* required amount of stack: 512 bytes */
 
 /* Specify the memory areas */
 MEMORY
@@ -108,7 +108,7 @@ SECTIONS
   _sidata = LOADADDR(.data);
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : 
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
@@ -119,7 +119,7 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
-  
+
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -157,5 +157,3 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
-
-
