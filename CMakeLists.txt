@@ -59,7 +59,7 @@ set(MCPU "-mcpu=cortex-m0plus -mthumb")
 set(MFLOAT_ABI "-mfloat-abi=soft")
 set(LINKER_SCRIPT ${PY32_LDS_PATH}/py32f030x6.ld)
 
-set(CMAKE_C_FLAGS "${MCPU} ${MFLOAT_ABI} -std=gnu11 --specs=nano.specs")
+set(CMAKE_C_FLAGS "${MCPU} ${MFLOAT_ABI} -Os -std=gnu11 --specs=nano.specs")
 set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 
 set(CMAKE_EXE_LINKER_FLAGS
