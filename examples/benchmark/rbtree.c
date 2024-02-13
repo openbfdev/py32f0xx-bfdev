@@ -10,8 +10,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <errno.h>
-#include <bfdev/rbtree.h>
-#include <bfdev/log.h>
+#include <bfdev.h>
+
+#include "main.h"
 #include "py32f0xx_hal.h"
 
 #define TEST_LEN 50
@@ -59,6 +60,7 @@ int rbtree_benchmark(void)
         for (count = 0; count < TEST_LEN; ++count)
             bfdev_rb_insert(&bench_root, &node[count].node, demo_cmp, NULL);
         bench_root = BFDEV_RB_INIT;
+        iwdg_touch();
     }
 
     time = HAL_GetTick() - start;

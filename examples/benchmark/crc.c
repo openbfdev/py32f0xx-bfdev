@@ -10,10 +10,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <errno.h>
-#include <bfdev/crc.h>
-#include <bfdev/prandom.h>
-#include <bfdev/log.h>
-#include <bfdev/size.h>
+#include <bfdev.h>
+
+#include "main.h"
 #include "py32f0xx_hal.h"
 
 #define TEST_SIZE BFDEV_SZ_1KiB
@@ -27,6 +26,7 @@ for (count = 0; count < TEST_LOOP; ++count) {   \
         func(buff, size, 0);                    \
         loop++;                                 \
     } while (start + 1000 > HAL_GetTick());     \
+    iwdg_touch();                               \
     bfdev_log_notice(                           \
         name " bandwidth %u: %uKiB/s\n",        \
         count, loop                             \
@@ -42,7 +42,7 @@ int crc_benchmark(int argc, char const *argv[])
 
     buff = malloc(TEST_SIZE);
     if (!buff)
-        return 1;
+        return -ENOMEM;
 
     bfdev_prandom_seed(&pstate, HAL_GetTick());
     for (count = 0; count < TEST_SIZE; ++count)
