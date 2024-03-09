@@ -59,7 +59,7 @@ int rbtree_benchmark(void)
     for (loop = 0; loop < TEST_LOOP; ++loop) {
         for (count = 0; count < TEST_LEN; ++count)
             bfdev_rb_insert(&bench_root, &node[count].node, demo_cmp, NULL);
-        bench_root = BFDEV_RB_INIT;
+        bench_root = BFDEV_RB_INIT();
         iwdg_touch();
     }
 

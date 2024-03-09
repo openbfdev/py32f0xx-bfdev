@@ -5,6 +5,7 @@
 
 options+=" -DHOST_C_COMPILER=/bin/gcc"
 options+=" -DENABLE_EXAMPLES=ON"
+options+=" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 options+=" --toolchain cmake/toolchain.cmake"
 
 cmake -Bbuild $options

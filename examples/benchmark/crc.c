@@ -35,7 +35,7 @@ for (count = 0; count < TEST_LOOP; ++count) {   \
 
 int crc_benchmark(int argc, char const *argv[])
 {
-    bfdev_prandom_state_t pstate;
+    bfdev_prandom_t pstate;
     unsigned int count, loop;
     uint8_t *buff;
     size_t index;

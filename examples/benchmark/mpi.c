@@ -12,7 +12,7 @@
 #include "main.h"
 #include "py32f0xx_hal.h"
 
-#define TEST_LEN 200
+#define TEST_LEN 100
 #define TEST_SIZE (TEST_LEN / 4 + 1)
 #define TEST_LOOP (TEST_LEN / 1.39793 + 1)
 
@@ -29,24 +29,21 @@ int mpi_benchmark(void)
           (vq = bfdev_mpi_create(NULL))))
         return -ENOMEM;
 
-    bfdev_log_notice("Generate bignum: %u\n", TEST_SIZE);
-    if ((retval = bfdev_mpi_set(vw,  16 * 5)) ||
-        (retval = bfdev_mpi_set(vv, 239 * 4)) ||
-        (retval = bfdev_mpi_set(vq, 10000)))
+    if ((retval = bfdev_mpi_seti(vw, 16 * 5)) ||
+        (retval = bfdev_mpi_seti(vv, 4 * 239)) ||
+        (retval = bfdev_mpi_seti(vq, 10000)))
         return retval;
 
     for (k = 0; k < TEST_SIZE; ++k) {
         if ((retval = bfdev_mpi_mul(vw, vw, vq)) ||
             (retval = bfdev_mpi_mul(vv, vv, vq)))
             return retval;
-
-        iwdg_touch();
     }
 
-    bfdev_log_notice("Calculate PI %d:\n", TEST_LEN);
+    bfdev_log_info("Convergence Machin %d:\n", TEST_LEN);
     start = HAL_GetTick();
     for (k = 1; k <= TEST_LOOP; ++k) {
-        if ((retval = bfdev_mpi_divi(vw, vw, vw, 25)) ||
+        if ((retval = bfdev_mpi_divi(vw, vw, vw, 5 * 5)) ||
             (retval = bfdev_mpi_divi(vv, vv, vv, 239 * 239)) ||
             (retval = bfdev_mpi_sub(vq, vw, vv)) ||
             (retval = bfdev_mpi_divi(vq, vq, vq, 2 * k - 1)))
