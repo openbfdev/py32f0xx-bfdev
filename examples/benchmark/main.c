@@ -86,6 +86,9 @@ int main(void)
 
     bfdev_log_info("Benchmark for PY32F0xx.\n");
     bfdev_log_info("Bfdev version: %s\n", __bfdev_stringify(BFDEV_VERSION));
+    bfdev_log_info("SYSCLK freq: %u\n", HAL_RCC_GetSysClockFreq());
+    bfdev_log_info("AHB freq: %u\n", HAL_RCC_GetHCLKFreq());
+    bfdev_log_info("APB freq: %u\n", HAL_RCC_GetPCLK1Freq());
     bfdev_log_info("This may take a few minutes...\n");
     puts(""); /* '\n' */
 
