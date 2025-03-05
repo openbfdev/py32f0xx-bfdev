@@ -34,7 +34,8 @@ int main(void)
     GPIOInitType.Alternate = GPIO_AF1_TIM1;
     HAL_GPIO_Init(GPIOB, &GPIOInitType);
 
-    beep(mario);
+    buzzer_init();
+    buzzer_beep(mario);
     for (;;);
 
     return 0;

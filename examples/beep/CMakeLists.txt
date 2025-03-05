@@ -5,7 +5,6 @@
 
 add_executable(beep main.c beep.c)
 target_link_libraries(beep ${CMAKE_PROJECT_NAME})
-target_link_libraries(beep bfdev)
 
 add_custom_command(
     TARGET beep

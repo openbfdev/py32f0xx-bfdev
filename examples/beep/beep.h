@@ -14,6 +14,9 @@ struct beep_table {
 };
 
 extern int
-beep(const struct beep_table *table);
+buzzer_init(void);
+
+extern int
+buzzer_beep(const struct beep_table *table);
 
 #endif /* _BEEP_H_ */
